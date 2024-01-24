@@ -8,9 +8,14 @@ export const Navbar = () => {
     setSearchText(event.target.value);
   };
 
-  const handleSearchSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSearchSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log('Ce qui sera recherché:', searchText);
+    const fetchSearchedMovies = await fetch(`http://localhost:8000/cine-project/search?pageNumber=1&searchText=${searchText}`, {
+        headers: { accept: "application/json" },
+      })
+      const result = await fetchSearchedMovies.json()
+      console.log(result); 
   };
 
   return (
