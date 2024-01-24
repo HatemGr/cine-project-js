@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import styles from "./Navbar.module.css"
+import axios from 'axios';
+
 
 export const Navbar = () => {
   const [searchText, setSearchText] = useState<string>('');
@@ -11,11 +13,13 @@ export const Navbar = () => {
   const handleSearchSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     console.log('Ce qui sera recherché:', searchText);
-    const fetchSearchedMovies = await fetch(`http://localhost:8000/cine-project/search?pageNumber=1&searchText=${searchText}`, {
-        headers: { accept: "application/json" },
-      })
-      const result = await fetchSearchedMovies.json()
-      console.log(result); 
+    const response = await axios.get(`http://localhost:8000/cine-project/search`, {
+      params: {
+        pageNumber: 1,
+        searchText: searchText
+      }
+    });
+    console.log(response.data); 
   };
 
   return (
