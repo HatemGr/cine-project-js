@@ -7,6 +7,8 @@ interface MovieContextType {
   getPopularMovies: () => Promise<void>;
   getSearchedMovies: (searchText: string) => Promise<void>;
   getNextPage: () => Promise<void>;
+  filteredMovies: Movie[];
+  filterMoviesByGenres: (selectedGenres: number[]) => Promise<void>;
 }
 
 export const MovieContext = createContext<MovieContextType>({
@@ -14,6 +16,8 @@ export const MovieContext = createContext<MovieContextType>({
   getPopularMovies: async () => {},
   getSearchedMovies: async (searchText: string) => {},
   getNextPage: async () => {},
+  filteredMovies: [],
+  filterMoviesByGenres: async (selectedGenres: number[]) => {},
 });
 
 interface MovieProviderProps {
@@ -22,18 +26,21 @@ interface MovieProviderProps {
 
 export const MovieProvider: React.FC<MovieProviderProps> = ({ children }) => {
   const [fetchedMovies, setFetchedMovies] = useState<Movie[]>([]);
+  const [filteredMovies, setFilteredMovies] = useState<Movie[]>([]);
+  const [checkedGenres, setCheckedGenres] = useState<number[]>([]);
   const [pageNumber, setPageNumber] = useState(1);
   const [fetchType, setFetchType] = useState("popular");
   const [searchText, setSearchText] = useState("");
 
   const getPopularMovies = async () => {
     setFetchType("popular");
-    setPageNumber(1)
+    setPageNumber(1);
     try {
       const response = await axios.get<Movie[]>(
         `http://localhost:8000/cine-project/movies/popular?pageNumber=1`
       );
       setFetchedMovies(response.data);
+      setFilteredMovies(response.data);
     } catch (error) {
       console.error("Error fetching popular movies:", error);
     }
@@ -41,7 +48,7 @@ export const MovieProvider: React.FC<MovieProviderProps> = ({ children }) => {
 
   const getSearchedMovies = async (searchText: string) => {
     setSearchText(searchText);
-    setPageNumber(1)
+    setPageNumber(1);
     setFetchType("searched");
     try {
       const response = await axios.get<Movie[]>(
@@ -54,12 +61,13 @@ export const MovieProvider: React.FC<MovieProviderProps> = ({ children }) => {
         }
       );
       setFetchedMovies(response.data);
+      setFilteredMovies(response.data);
     } catch (error) {
       console.error("Error fetching searched movies:", error);
     }
   };
 
-  const test = async () => {
+  const getMovies = async () => {
     const nextPage = pageNumber + 1;
     const url =
       fetchType === "popular"
@@ -68,11 +76,43 @@ export const MovieProvider: React.FC<MovieProviderProps> = ({ children }) => {
 
     const response = await axios.get<Movie[]>(url);
     setFetchedMovies((prevMovies) => prevMovies.concat(response.data));
+
+    if(checkedGenres.length === 0) {
+      setFilteredMovies((prevMovies) => prevMovies.concat(response.data));
+    } else {
+      setFilteredMovies((prevMovies) =>
+        prevMovies
+          .concat(response.data
+          .filter((movie) =>
+            movie.genre_ids.some((id) => checkedGenres.includes(id))
+          ))
+      );
+    }
   };
 
-  useEffect(() => {
-    test();
+  const filterMoviesByGenres = async (selectedGenres: number[]) => {
+    setCheckedGenres(selectedGenres);
+
+    if (selectedGenres.length === 0) {
+      setFilteredMovies(fetchedMovies);
+      return;
+    }
+    setFilteredMovies(
+      fetchedMovies.filter((movie) =>
+        movie.genre_ids.some((id) => selectedGenres.includes(id))
+      )
+    );
+  };
+
+  useEffect(() => {    
+    getMovies();
   }, [pageNumber]);
+
+  useEffect(() => {
+    if(filteredMovies.length < 20) {
+      getNextPage()
+    }
+  },[filteredMovies] )
 
   const getNextPage = async () => {
     setPageNumber((prevPageNumber) => prevPageNumber + 1);
@@ -85,6 +125,8 @@ export const MovieProvider: React.FC<MovieProviderProps> = ({ children }) => {
         getPopularMovies,
         getSearchedMovies,
         getNextPage,
+        filteredMovies,
+        filterMoviesByGenres,
       }}
     >
       {children}

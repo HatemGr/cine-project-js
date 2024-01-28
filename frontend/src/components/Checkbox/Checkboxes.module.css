@@ -1,0 +1,52 @@
+.checkboxesContainer {
+  padding: 10px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  background-color: black; /* Light background color */
+  border-radius: 8px; /* Rounded corners for the container */
+}
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  margin: 10px;
+  color: gold; /* Dark text color for better readability */
+}
+
+.checkbox input[type="checkbox"] {
+  height: 20px;
+  width: 20px;
+  margin-right: 8px;
+  border-radius: 4px; /* Slightly rounded corners for checkboxes */
+  border: 2px solid #ddd; /* Subtle border color */
+  appearance: none; /* Remove default styling */
+  background-color: white;
+  cursor: pointer;
+  position: relative;
+}
+
+.checkbox input[type="checkbox"]:checked {
+  background-color: orange; /* A bright, distinct color when checked */
+  border-color: orange;
+}
+
+.checkbox input[type="checkbox"]:checked::after {
+  content: '';
+  position: absolute;
+  left: 4px;
+  top: -1px;
+  width: 6px;
+  height: 12px;
+  border: solid white;
+  border-width: 0 3px 3px 0;
+  transform: rotate(45deg) scale(0.7);
+}
+
+.checkbox input[type="checkbox"]:hover {
+  border-color: #aaa; /* Slightly darker border on hover for better interaction */
+}
+
+.checkbox label {
+  user-select: none; /* Prevent text selection */
+}
