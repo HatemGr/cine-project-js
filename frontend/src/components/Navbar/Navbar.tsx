@@ -12,7 +12,6 @@ export const Navbar = () => {
 
   const handleSearchSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log('Ce qui sera recherché:', searchText);
     const response = await axios.get(`http://localhost:8000/cine-project/search`, {
       params: {
         pageNumber: 1,
