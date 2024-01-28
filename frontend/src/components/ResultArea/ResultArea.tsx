@@ -13,7 +13,7 @@ export const ResultArea = () => {
 
   const getFavoriteMoviesIds = async () => {
     const response = await axios.get<number[]>(
-      `http://localhost:8000/cine-project/favorites-movies-id`
+      `http://localhost:8000/cine-project/favorite-movies-id`
     );
     setFavoriteMoviesIds(response.data);
   };

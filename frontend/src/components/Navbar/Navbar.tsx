@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import styles from "./Navbar.module.css";
 import { useMovies } from "../../Context/MovieContext";
+import { Link } from "react-router-dom";
 
 export const Navbar = () => {
   const [searchText, setSearchText] = useState<string>("");
@@ -22,7 +23,18 @@ export const Navbar = () => {
 
   return (
     <nav className={styles.navbar}>
-      <div className={styles.logo}>Cine-Project</div>
+      <Link to={`/`} style={{ textDecoration: "none" }}>
+        <div className={styles.logo} style={{ color: "white" }}>
+          Cine-Project
+        </div>
+      </Link>
+      <Link
+        to={`/favorites`}
+        style={{ textDecoration: "none", color: "white" }}
+      >
+        Mes films
+      </Link>
+
       <form onSubmit={handleSearchSubmit} className={styles.searchBar}>
         <input
           className={styles.searchBarInput}

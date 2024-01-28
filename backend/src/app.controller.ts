@@ -61,7 +61,7 @@ export class AppController {
     return this.appService.getMoviesByIds();
   }
 
-  @Get('/favorites-movies-id')
+  @Get('/favorite-movies-id')
   async getFavoriteMoviesIds() {
     return this.appService.myFavoriteMovies;
   }

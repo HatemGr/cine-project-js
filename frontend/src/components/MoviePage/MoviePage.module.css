@@ -1,30 +1,53 @@
 .moviePage {
-display: flex;
+    display: flex;
 }
-  
+
 .imageContainer {
-width: 50vw;
-height: 100vh;
+    width: 50vw;
+    height: 100vh;
 }
 
 .movieImage {
-width: 100%;
-height: inherit;
-border-radius: 4px;
+    width: 100%;
+    height: inherit;
+    border-radius: 4px;
 }
 
 .summaryContainer {
-color: white;
-flex: 2;
-display: flex;
-flex-direction: column;
-justify-content: center;
-text-align: center;
-padding: 20px;
+    color: white;
+    flex: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: center;
+    padding: 20px;
+    align-items: center;
 
 }
 
 .summaryContainer h2 {
-margin-bottom: 10px;
+    margin-bottom: 10px;
 }
-  
+
+.toogleButton {
+    width: 135px;
+    border-radius: 5px;
+    height: 30px;
+    margin-bottom: 65px;
+}
+
+.add {
+    background-color: gold;
+}
+
+.remove {
+    background-color: black;
+    color: gold;
+    border-color: gold;
+}
+
+.return {
+    text-decoration: none;
+    font-weight: bold;
+    color: gold;
+}

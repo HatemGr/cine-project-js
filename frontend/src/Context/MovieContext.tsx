@@ -77,15 +77,15 @@ export const MovieProvider: React.FC<MovieProviderProps> = ({ children }) => {
     const response = await axios.get<Movie[]>(url);
     setFetchedMovies((prevMovies) => prevMovies.concat(response.data));
 
-    if(checkedGenres.length === 0) {
+    if (checkedGenres.length === 0) {
       setFilteredMovies((prevMovies) => prevMovies.concat(response.data));
     } else {
       setFilteredMovies((prevMovies) =>
-        prevMovies
-          .concat(response.data
-          .filter((movie) =>
+        prevMovies.concat(
+          response.data.filter((movie) =>
             movie.genre_ids.some((id) => checkedGenres.includes(id))
-          ))
+          )
+        )
       );
     }
   };
@@ -104,15 +104,15 @@ export const MovieProvider: React.FC<MovieProviderProps> = ({ children }) => {
     );
   };
 
-  useEffect(() => {    
+  useEffect(() => {
     getMovies();
   }, [pageNumber]);
 
   useEffect(() => {
-    if(filteredMovies.length < 20) {
-      getNextPage()
+    if (filteredMovies.length < 20) {
+      getNextPage();
     }
-  },[filteredMovies] )
+  }, [filteredMovies]);
 
   const getNextPage = async () => {
     setPageNumber((prevPageNumber) => prevPageNumber + 1);

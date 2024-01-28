@@ -14,7 +14,7 @@ const MoviePage = () => {
 
   const getFavoriteMoviesIds = async () => {
     const response = await axios.get<number[]>(
-      `http://localhost:8000/cine-project/favorites-movies-id`
+      `http://localhost:8000/cine-project/favorite-movies-id`
     );    
     return response.data
   }
@@ -59,8 +59,8 @@ const MoviePage = () => {
       <div className={styles.summaryContainer}>
         <h2>{movie?.title}</h2>
         <p>{movie?.overview}</p>
-        <Link to={`/`}>Retour à la page de recherche</Link>
-        <button onClick={toggleFavorites}> {isFavorite ? 'Retirer des favoris':'Ajouter aux favoris'} </button>
+        <button className={`${styles.toogleButton} ${isFavorite ? styles.remove : styles.add }`} onClick={toggleFavorites}> {isFavorite ? 'Retirer des favoris':'Ajouter aux favoris'} </button>
+        <Link to={`/`} className={styles.return}>Retour à la page de recherche</Link>
       </div>
     </div>
   );
