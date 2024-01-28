@@ -15,9 +15,9 @@ export const Navbar = () => {
   ) => {
     event.preventDefault();
     if (searchText === "") {
-      return getPopularMovies(1);
+      return getPopularMovies();
     }
-    return getSearchedMovies(searchText, 1);
+    return getSearchedMovies(searchText);
   };
 
   return (
