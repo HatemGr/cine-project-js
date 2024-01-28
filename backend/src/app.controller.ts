@@ -47,12 +47,22 @@ export class AppController {
     return (await this.appService.getMovieGenres()).genres;
   }
 
-  @Post('toggle-favorite/:id')
+  @Post('/toggle-favorite/:id')
   async toggleMovieToFavorites(@Param('id') id: string): Promise<any> {
     const movieId = parseInt(id, 10);
     if (isNaN(movieId)) {
       throw new Error('Invalid movie ID');
     }
     return this.appService.toggleMovieToFavorites(movieId);
+  }
+
+  @Get('/favorite-movies')
+  async getFavoriteMovies() {
+    return this.appService.getMoviesByIds();
+  }
+
+  @Get('/favorites-movies-id')
+  async getFavoriteMoviesIds() {
+    return this.appService.myFavoriteMovies;
   }
 }

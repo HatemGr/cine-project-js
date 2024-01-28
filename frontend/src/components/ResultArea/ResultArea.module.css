@@ -4,4 +4,10 @@
     flex-wrap: wrap;
     gap: 20px; /* This sets the gap between items */
     justify-content: center;
-  }  
+  }
+
+  .isFavorite {
+    border-radius: 10px;
+    position: relative;
+    box-shadow: 0 0 10px 5px gold;
+  }

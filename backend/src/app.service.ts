@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import axios from 'axios';
-import { GenreDto, MovieDto } from 'src/models';
+import { GenreDto, Movie, MovieDto } from 'src/models';
 
 @Injectable()
 export class AppService {
@@ -48,4 +48,11 @@ export class AppService {
     }
     return this.myFavoriteMovies;
   };
+
+  getMoviesByIds(): Promise<Movie[]> {
+    const moviePromises = this.myFavoriteMovies.map((id) =>
+      this.getMovieById(id),
+    );
+    return Promise.all(moviePromises);
+  }
 }

@@ -5,15 +5,16 @@ import { Movie } from "../../models";
 
 interface MovieCardProps {
   movie: Movie;
+  isFavorite: boolean
 }
 
-const MovieCard = ({ movie }: MovieCardProps) => {
+const MovieCard = ({ movie, isFavorite }: MovieCardProps) => {
   const posterUrlPrefix = "https://image.tmdb.org/t/p/original/";
   const maxPopularity = 10;
   const fullStars = Math.floor((movie.vote_average / maxPopularity) * 5);
 
   return (
-    <div className={styles.movieCard}>
+    <div className={`${styles.movieCard} ${isFavorite && styles.isFavorite}`}>
       <div
         className={styles.moviePoster}
         style={{
