@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import styles from "./ResultArea.module.css";
 import MovieCard from "../MovieCard/MovieCard";
 import { useMovies } from "../../Context/MovieContext";
+import { Link } from "react-router-dom";
 
 export const ResultArea = () => {
   const { fetchedMovies, getPopularMovies, getNextPage } = useMovies();
@@ -24,7 +25,9 @@ export const ResultArea = () => {
   return (
     <div className={styles.layout}>
       {fetchedMovies.map((movie) => (
-        <MovieCard key={movie.id} movie={movie} />
+        <Link to={`/movies/${movie.id}`} style={{ textDecoration: 'none' }}>
+          <MovieCard key={movie.id} movie={movie} />
+        </Link>
       ))}
     </div>
   );

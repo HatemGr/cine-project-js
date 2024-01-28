@@ -9,9 +9,8 @@ interface MovieCardProps {
 
 const MovieCard = ({ movie }: MovieCardProps) => {
   const posterUrlPrefix = "https://image.tmdb.org/t/p/original/";
-  const maxPopularity = 5000;
-  const fullStars = Math.floor((movie.popularity / maxPopularity) * 5);
-  const halfStar = ((movie.popularity / maxPopularity) * 5) % 1 >= 0.5;
+  const maxPopularity = 10;
+  const fullStars = Math.floor((movie.vote_average / maxPopularity) * 5);
 
   return (
     <div className={styles.movieCard}>
@@ -26,7 +25,7 @@ const MovieCard = ({ movie }: MovieCardProps) => {
       <div className={styles.starRating}>
         {[...Array(5)].map((_, index) => {
           const fill =
-            index < fullStars || (index === fullStars && halfStar)
+            index <= fullStars 
               ? styles.orange
               : styles.white;
           return (

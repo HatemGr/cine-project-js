@@ -1,0 +1,30 @@
+.moviePage {
+display: flex;
+}
+  
+.imageContainer {
+width: 50vw;
+height: 100vh;
+}
+
+.movieImage {
+width: 100%;
+height: inherit;
+border-radius: 4px;
+}
+
+.summaryContainer {
+color: white;
+flex: 2;
+display: flex;
+flex-direction: column;
+justify-content: center;
+text-align: center;
+padding: 20px;
+
+}
+
+.summaryContainer h2 {
+margin-bottom: 10px;
+}
+  
