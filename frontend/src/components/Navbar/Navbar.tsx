@@ -1,24 +1,23 @@
-import React, { useState } from 'react';
-import styles from "./Navbar.module.css"
-import axios from 'axios';
-
+import React, { useState } from "react";
+import styles from "./Navbar.module.css";
+import { useMovies } from "../../Context/MovieContext";
 
 export const Navbar = () => {
-  const [searchText, setSearchText] = useState<string>('');
+  const [searchText, setSearchText] = useState<string>("");
+  const { getPopularMovies, getSearchedMovies } = useMovies();
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchText(event.target.value);
   };
 
-  const handleSearchSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSearchSubmit = async (
+    event: React.FormEvent<HTMLFormElement>
+  ) => {
     event.preventDefault();
-    const response = await axios.get(`http://localhost:8000/cine-project/search`, {
-      params: {
-        pageNumber: 1,
-        searchText: searchText
-      }
-    });
-    console.log(response.data); 
+    if (searchText === "") {
+      return getPopularMovies(1);
+    }
+    return getSearchedMovies(searchText, 1);
   };
 
   return (
@@ -26,13 +25,15 @@ export const Navbar = () => {
       <div className={styles.logo}>Cine-Project</div>
       <form onSubmit={handleSearchSubmit} className={styles.searchBar}>
         <input
-        className={styles.searchBarInput}
+          className={styles.searchBarInput}
           type="text"
           placeholder="Recherche ton film préféré..."
           value={searchText}
           onChange={handleSearchChange}
         />
-        <button type="submit" className={styles.searchBarButton}>Rechercher</button>
+        <button type="submit" className={styles.searchBarButton}>
+          Rechercher
+        </button>
       </form>
     </nav>
   );

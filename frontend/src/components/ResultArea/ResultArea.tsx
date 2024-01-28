@@ -1,21 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import styles from "./ResultArea.module.css";
-import { Movie } from "../../models";
-import axios from "axios";
 import MovieCard from "../MovieCard/MovieCard";
+import { useMovies } from "../../Context/MovieContext";
 
 export const ResultArea = () => {
-  const [movies, setMovies] = useState<Movie[]>([]);
+  const { fetchedMovies, getPopularMovies } = useMovies();
 
   useEffect(() => {
-    axios
-      .get(`http://localhost:8000/cine-project/movies/popular?pageNumber=1`)
-      .then((response) => setMovies(response.data));
+    getPopularMovies(1);
   }, []);
 
   return (
     <div className={styles.layout}>
-      {movies.map((movie) => (
+      {fetchedMovies.map((movie) => (
         <MovieCard key={movie.id} movie={movie} />
       ))}
     </div>
