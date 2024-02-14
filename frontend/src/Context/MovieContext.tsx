@@ -13,11 +13,11 @@ interface MovieContextType {
 
 export const MovieContext = createContext<MovieContextType>({
   fetchedMovies: [],
-  getPopularMovies: async () => {},
-  getSearchedMovies: async (searchText: string) => {},
-  getNextPage: async () => {},
+  getPopularMovies: async () => { },
+  getSearchedMovies: async (searchText: string) => { },
+  getNextPage: async () => { },
   filteredMovies: [],
-  filterMoviesByGenres: async (selectedGenres: number[]) => {},
+  filterMoviesByGenres: async (selectedGenres: number[]) => { },
 });
 
 interface MovieProviderProps {
@@ -34,7 +34,7 @@ export const MovieProvider: React.FC<MovieProviderProps> = ({ children }) => {
 
   const getPopularMovies = async () => {
     setFetchType("popular");
-    setPageNumber(1);
+    setPageNumber(2);
     try {
       const response = await axios.get<Movie[]>(
         `http://localhost:8000/cine-project/movies/popular?pageNumber=1`
@@ -95,13 +95,13 @@ export const MovieProvider: React.FC<MovieProviderProps> = ({ children }) => {
 
     if (selectedGenres.length === 0) {
       setFilteredMovies(fetchedMovies);
-      return;
+    } else {
+      setFilteredMovies(
+        fetchedMovies.filter((movie) =>
+          movie.genre_ids.some((id) => selectedGenres.includes(id))
+        )
+      );
     }
-    setFilteredMovies(
-      fetchedMovies.filter((movie) =>
-        movie.genre_ids.some((id) => selectedGenres.includes(id))
-      )
-    );
   };
 
   useEffect(() => {

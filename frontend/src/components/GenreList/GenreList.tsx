@@ -1,37 +1,37 @@
-import React, { useEffect, useState } from 'react';
-import styles from './Checkboxes.module.css';
-import axios from 'axios';
-import { Genre } from '../../models';
-import { useMovies } from '../../Context/MovieContext';
+import { useEffect, useState } from "react";
+import styles from "./GenreList.module.css";
 
-const Checkboxes = () => {
+import { Genre } from "../../models";
+import { useMovies } from "../../Context/MovieContext";
+import { getGenres } from "../../services/movieService";
+
+const GenreList = () => {
   const [fetchedGenres, setFetchedGenres] = useState<Genre[]>([]);
   const [checkedGenres, setCheckedGenres] = useState<number[]>([]);
 
   const { filterMoviesByGenres } = useMovies();
 
-
-  const getGenres = async () => {
-    const response = await axios.get<Genre[]>(
-      `http://localhost:8000/cine-project/genres`
-    );    
-    setFetchedGenres(response.data);
+  const getGenresFromApi = async () => {
+    const genres = await getGenres();
+    setFetchedGenres(genres);
   };
 
   useEffect(() => {
-    getGenres();
+    getGenresFromApi();
   }, []);
 
   useEffect(() => {
-    filterMoviesByGenres(checkedGenres)
-  },[checkedGenres])
+    filterMoviesByGenres(checkedGenres);
+  }, [checkedGenres]);
 
   const handleCheckboxChange = (id: number, isChecked: boolean) => {
-    if(isChecked) {
-      setCheckedGenres(prevCheckedGenres => [...prevCheckedGenres, id])
-      return
-    } 
-      setCheckedGenres(prevCheckedGenres => prevCheckedGenres.filter(checkedId => checkedId !== id))
+    if (isChecked) {
+      setCheckedGenres((prevCheckedGenres) => [...prevCheckedGenres, id]);
+      return;
+    }
+    setCheckedGenres((prevCheckedGenres) =>
+      prevCheckedGenres.filter((checkedId) => checkedId !== id)
+    );
   };
 
   return (
@@ -50,4 +50,4 @@ const Checkboxes = () => {
   );
 };
 
-export default Checkboxes;
+export default GenreList;
